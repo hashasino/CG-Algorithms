@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.ArrayList;
 
-public class Q4_CircleDrawing_Bresenhams {
+public class Q4_CircleDrawing_DDA {
 	public static void main(String[] args) {
 
 		//Program Declaration
@@ -36,38 +36,39 @@ public class Q4_CircleDrawing_Bresenhams {
 		}
 
 		//Instantiating Plotter object of maxRadius
-		Plotter plotObj = new Plotter(2 * maxRadius + 1, 2 * maxRadius + 1);
+		Plotter plotObj = new Plotter(maxRadius + 1, maxRadius + 1);
 
 		//Drawing circles
 		for (int i = 0; i < circle; i++)
-			plotObj.WorldPlotObject(BresenhamsCircle(radii[i]), 'o');
+			plotObj.WorldPlotObject(DDACircle(radii[i]), 'o');
 
 		//Displaying circles
 		plotObj.WorldDisplay();
 
 	}
 
-	//Bresenham's Circle Drawing Algorithm
-	public static List<Point> BresenhamsCircle(int radius) {
+	//DDA Circle Drawing Algorithm
+	public static List<Point> DDACircle(int radius) {
+
+		//Finding epsilon
+		int power = 0;
+		while (Math.pow(2, power) <= radius) {
+			power++;
+		}
+		double epsilon = Math.pow(2, -power);
 
 		//Initializing point list for Octant
 		List<Point> Octant = new ArrayList<>();
 
 		//Initializing loop variables
-		int x = 0;
-		int y = radius;
-		int decisionParameter = 3 - 2 * radius;
+		double x = 0;
+		double y = radius;
 
 		//Calculating the first octant
 		while (x <= y) {
 			Octant.add(new Point(x, y));
-			x++;
-			if (decisionParameter < 0) {
-				decisionParameter += 4 * x + 6;
-			} else {
-				y--;
-				decisionParameter += 4 * (x - y) + 10;
-			}
+			x = x + y * epsilon;
+			y = y - x * epsilon;
 		}
 
 		//Initializing point list for Circle
@@ -75,14 +76,16 @@ public class Q4_CircleDrawing_Bresenhams {
 
 		//Generating other octants
 		for (Point point : Octant) {
-			Circle.add(new Point(point.x, point.y));
-			Circle.add(new Point(point.y, point.x));
-			Circle.add(new Point(point.y, -point.x));
-			Circle.add(new Point(point.x, -point.y));
-			Circle.add(new Point(-point.x, -point.y));
-			Circle.add(new Point(-point.y, -point.x));
-			Circle.add(new Point(-point.y, point.x));
-			Circle.add(new Point(-point.x, point.y));
+			int X = (int) (Math.round(point.x));
+			int Y = (int) (Math.round(point.y));
+			Circle.add(new Point(X, Y));
+			Circle.add(new Point(Y, X));
+			Circle.add(new Point(Y, -X));
+			Circle.add(new Point(X, -Y));
+			Circle.add(new Point(-X, -Y));
+			Circle.add(new Point(-Y, -X));
+			Circle.add(new Point(-Y, X));
+			Circle.add(new Point(-X, Y));
 		}
 
 		return Circle;

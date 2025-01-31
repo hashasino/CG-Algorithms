@@ -23,15 +23,22 @@ public class Q7_LineDrawing_Bresenhams {
 		Point startPoint = new Point(scan.nextInt(), scan.nextInt());
 		Point endPoint = new Point(scan.nextInt(), scan.nextInt());
 
-		//Printing & plotting line coordinates
-		List<Point> Line = Bresenhams(startPoint, endPoint);
+		//Calculating line coordinates
+		List<Point> Line = BresenhamsLine(startPoint, endPoint);
+
+		//Printing line coordinates
 		Plotter.printObject(Line);
 		System.out.println();
-		Plotter.plotObject(Line, '*');
+
+		//Plotting line coordinates
+		int gridSize = (int) Math.max(Math.abs(endPoint.x - startPoint.x), Math.abs(endPoint.y - startPoint.y));
+		Plotter plotObj = new Plotter(gridSize, gridSize);
+		plotObj.WorldPlotObject(Line, '*');
+		plotObj.WorldDisplay();
 	}
 
 	//Bresenham's Line Drawing Algorithm
-	public static List<Point> Bresenhams(Point startPoint, Point endPoint) {
+	public static List<Point> BresenhamsLine(Point startPoint, Point endPoint) {
 
 		//Calculating delX & delY
 		double delX = Math.abs(endPoint.x - startPoint.x);

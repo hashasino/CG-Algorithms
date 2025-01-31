@@ -23,11 +23,18 @@ public class Q5_LineDrawing_Midpoint {
 		Point startPoint = new Point(scan.nextInt(), scan.nextInt());
 		Point endPoint = new Point(scan.nextInt(), scan.nextInt());
 
-		//Printing & plotting line coordinates
+		//Calculating line coordinates
 		List<Point> Line = MidpointLine(startPoint, endPoint);
+
+		//Printing line coordinates
 		Plotter.printObject(Line);
 		System.out.println();
-		Plotter.plotObject(Line, '*');
+
+		//Plotting line coordinates
+		int gridSize = (int) Math.max(Math.abs(endPoint.x - startPoint.x), Math.abs(endPoint.y - startPoint.y));
+		Plotter plotObj = new Plotter(gridSize, gridSize);
+		plotObj.WorldPlotObject(Line, '*');
+		plotObj.WorldDisplay();
 	}
 
 	//Midpoint Line Drawing Algorithm

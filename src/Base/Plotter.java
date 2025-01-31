@@ -2,10 +2,10 @@ package Base;
 
 import java.util.List;
 
-public class Plotter { //Contains methods to print & plot objects\
+public class Plotter { //Contains methods to print & plot objects in a grid
 
-	private final int width;
-	private final int height;
+	private int width;
+	private int height;
 	private String[][] World;
 	private final int centerX;
 	private final int centerY;
@@ -155,6 +155,13 @@ public class Plotter { //Contains methods to print & plot objects\
 
 	//To completely clear the WorldGrid
 	public void ClearWorld() {
+		initializeWorldGrid(width, height);
+	}
+
+	//To resize World Grid
+	public void ResizeWorld(int xRadius, int yRadius) {
+		width = xRadius * 2 + 1;
+		height = yRadius * 2 + 1;
 		initializeWorldGrid(width, height);
 	}
 

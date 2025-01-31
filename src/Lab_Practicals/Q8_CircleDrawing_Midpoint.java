@@ -13,47 +13,86 @@ public class Q8_CircleDrawing_Midpoint {
 	public static void main(String[] args) {
 
 		//Program Declaration
-		System.out.println("This is a program for drawing a circle, an arc & a sector using Midpoint Circle Drawing Algorithm.");
+		System.out.println("This is a program for drawing circles, arcs & sectors using Midpoint Circle Drawing Algorithm.");
 
 		//Instantiating Scanner object
 		Scanner scan = new Scanner(System.in);
 
+		//Instantiating Plotter Object
+		Plotter plotObj = new Plotter(10, 10);
+
 		while (true) {
-			System.out.println("- What do you want to draw?");
-			System.out.println("1. Arc    2.Sector    3.Circle    0. Exit Program");
+			System.out.println("\nWhat do you want to do?");
+			System.out.println("1. Draw Arc      2. Draw Sector");
+			System.out.println("3. Draw Circle   7. Display Grid");
+			System.out.println("8. Clear Grid    9. Resize Grid");
+			System.out.println("0. Exit Program");
+
 			int choice = scan.nextInt();
-			int angle, radius, x, y;
 			switch (choice) {
-				case 1:
+				case 1: {
 					System.out.println("Enter the angle for arc (in degrees): ");
-					angle = scan.nextInt();
+					int angle = scan.nextInt();
 					System.out.println("Enter the radius for arc: ");
-					radius = scan.nextInt();
-					System.out.println("Enter the start coordinates (x y) for arc: ");
-					x = scan.nextInt();
-					y = scan.nextInt();
-					Plotter.plotObject(Q2_GeometricPrimitives.Arc(angle, radius, new Point(x, y)), '0');
-					break;
-				case 2:
+					int radius = scan.nextInt();
+					System.out.println("Enter starting coordinates (x y) for arc: ");
+					Point startPoint = new Point(scan.nextInt(), scan.nextInt());
+					plotObj.WorldPlotObject(Q2_GeometricPrimitives.Arc(angle, radius, startPoint), 'o');
+					System.out.println("Arc drawn.");
+				}
+				break;
+
+				case 2: {
 					System.out.println("Enter the angle for sector (in degrees): ");
-					angle = scan.nextInt();
+					int angle = scan.nextInt();
 					System.out.println("Enter the radius for sector: ");
-					radius = scan.nextInt();
-					System.out.println("Enter the start coordinates (x y) for sector: ");
-					x = scan.nextInt();
-					y = scan.nextInt();
-					Plotter.plotObject(Q2_GeometricPrimitives.Sector(angle, radius, new Point(x, y)), '0');
-					break;
-				case 3:
+					int radius = scan.nextInt();
+					System.out.println("Enter starting coordinates (x y) for sector: ");
+					Point startPoint = new Point(scan.nextInt(), scan.nextInt());
+					List<Point> Sector = Q2_GeometricPrimitives.Sector(angle, radius, startPoint);
+					plotObj.WorldPlotObject(Sector, 'o');
+					System.out.println("Sector drawn.");
+				}
+				break;
+
+				case 3: {
 					System.out.println("Enter the radius for circle: ");
-					radius = scan.nextInt();
-					Plotter.plotObject(MidpointCircle(radius), '0');
+					int radius = scan.nextInt();
+					plotObj.WorldPlotObject(MidpointCircle(radius), '*');
+					System.out.println("Circle drawn.");
+				}
+				break;
+
+				case 7:
+					plotObj.WorldDisplay();
 					break;
+
+				case 8:
+					plotObj.ClearWorld();
+					System.out.println("Grid cleared.");
+					break;
+
+				case 9:
+					System.out.println("WARNING: Resizing grid will clear all objects drawn.");
+					System.out.println("1. Continue  0.Cancel");
+					choice = scan.nextInt();
+					if (choice == 1) {
+						System.out.println("Enter xRadius for new grid: ");
+						int xRadius = scan.nextInt();
+						System.out.println("Enter yRadius for new grid: ");
+						int yRadius = scan.nextInt();
+						plotObj.ResizeWorld(xRadius, yRadius);
+						System.out.println("Grid resized.");
+					}
+					break;
+
 				case 0:
+					System.out.println("Exiting program.");
 					scan.close();
 					System.exit(0);
+
 				default:
-					System.out.println("Invalid input. Try again.");
+					System.out.println("Invalid choice. Try again.");
 
 			}
 		}

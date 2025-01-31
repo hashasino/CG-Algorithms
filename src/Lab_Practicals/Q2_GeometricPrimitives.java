@@ -21,14 +21,15 @@ public class Q2_GeometricPrimitives {
 		Scanner scan = new Scanner(System.in);
 
 		//Instantiating Plotter Object
-		Plotter plotObj = new Plotter(20, 20);
+		Plotter plotObj = new Plotter(15, 15);
 
 		while (true) {
 			System.out.println("\nWhat do you want to do?");
-			System.out.println("1. Point   2. Line");
-			System.out.println("3. Arc     4. Sector");
-			System.out.println("5. Polygon     8. Display Grid");
-			System.out.println("9. Clear Grid  0. Exit Program");
+			System.out.println("1. Draw Point    2. Draw Line");
+			System.out.println("3. Draw Arc      4. Draw Sector");
+			System.out.println("5. Draw Polygon  6. Draw Ellipse");
+			System.out.println("7. Display Grid  8. Clear Grid");
+			System.out.println("9. Resize Grid   0. Exit Program");
 
 			int choice = scan.nextInt();
 
@@ -37,7 +38,7 @@ public class Q2_GeometricPrimitives {
 					System.out.print("Enter the point's coordinates in the following format: x y \n");
 					List<Point> Point = new ArrayList<>();
 					Point.add(new Point(scan.nextInt(), scan.nextInt()));
-					plotObj.WorldPlotObject(Point, 'O');
+					plotObj.WorldPlotObject(Point, '+');
 					System.out.println("Point drawn.");
 				}
 				break;
@@ -89,13 +90,31 @@ public class Q2_GeometricPrimitives {
 				}
 				break;
 
-				case 8:
+				case 6:
+					System.out.println("Implementation not available yet.\nTry something else.");
+					break;
+
+				case 7:
 					plotObj.WorldDisplay();
 					break;
 
-				case 9:
+				case 8:
 					plotObj.ClearWorld();
-					plotObj.WorldDisplay();
+					System.out.println("Grid cleared.");
+					break;
+
+				case 9:
+					System.out.println("WARNING: Resizing grid will clear all objects drawn.");
+					System.out.println("1. Continue  0.Cancel");
+					choice = scan.nextInt();
+					if (choice == 1) {
+						System.out.println("Enter xRadius for new grid: ");
+						int xRadius = scan.nextInt();
+						System.out.println("Enter yRadius for new grid: ");
+						int yRadius = scan.nextInt();
+						plotObj.ResizeWorld(xRadius, yRadius);
+						System.out.println("Grid resized.");
+					}
 					break;
 
 				case 0:

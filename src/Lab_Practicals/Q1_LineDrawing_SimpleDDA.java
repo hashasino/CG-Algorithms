@@ -18,16 +18,23 @@ public class Q1_LineDrawing_SimpleDDA {
 		//Instantiating Scanner object
 		Scanner scan = new Scanner(System.in);
 
-		//Taking input for the parameters for the chosen algorithm
+		//Taking input for starPoint & endPoint for the line
 		System.out.println("- Input start & end coordinates in the following format: x1 y1 x2 y2");
 		Point startPoint = new Point(scan.nextInt(), scan.nextInt());
 		Point endPoint = new Point(scan.nextInt(), scan.nextInt());
 
-		//Printing & plotting line coordinates
+		//Calculating line coordinates
 		List<Point> Line = SimpleDDALine(startPoint, endPoint);
+
+		//Printing line coordinates
 		Plotter.printObject(Line);
 		System.out.println();
-		Plotter.plotObject(Line, 'o');
+
+		//Plotting line coordinates
+		int gridSize = (int) Math.max(Math.abs(endPoint.x - startPoint.x), Math.abs(endPoint.y - startPoint.y));
+		Plotter plotObj = new Plotter(gridSize, gridSize);
+		plotObj.WorldPlotObject(Line, '*');
+		plotObj.WorldDisplay();
 	}
 
 	//SimpleDDA Line Drawing Algorithm
