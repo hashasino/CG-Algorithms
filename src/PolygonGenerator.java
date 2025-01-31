@@ -1,65 +1,80 @@
-import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 import java.awt.geom.Path2D;
 
-public class PolygonGenerator extends JFrame {
-	private final int numberOfSides;
-	private final double sideLength;
+public class PolygonGenerator extends Frame {
+	private TextField sidesField;
+	private TextField lengthField;
+	private Button submitButton;
+	private int numberOfSides;
+	private double sideLength;
 
-	public PolygonGenerator(int numberOfSides, double sideLength) {
-		this.numberOfSides = numberOfSides;
-		this.sideLength = sideLength;
-
+	public PolygonGenerator() {
 		setTitle("Regular Polygon");
 		setSize(800, 800);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLayout(new FlowLayout());
 		setLocationRelativeTo(null);
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent we) {
+				System.exit(0);
+			}
+		});
+
+		Label sidesLabel = new Label("Number of Sides:");
+		sidesField = new TextField(5);
+		Label lengthLabel = new Label("Side Length:");
+		lengthField = new TextField(5);
+		submitButton = new Button("Submit");
+
+		add(sidesLabel);
+		add(sidesField);
+		add(lengthLabel);
+		add(lengthField);
+		add(submitButton);
+
+		submitButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				numberOfSides = Integer.parseInt(sidesField.getText());
+				sideLength = Double.parseDouble(lengthField.getText());
+				repaint();
+			}
+		});
 	}
 
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
-		Graphics2D g2d = (Graphics2D) g;
-		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		if (numberOfSides > 0 && sideLength > 0) {
+			Graphics2D g2d = (Graphics2D) g;
+			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-		// Calculate the center of the frame
-		int centerX = getWidth() / 2;
-		int centerY = getHeight() / 2;
+			int centerX = getWidth() / 2;
+			int centerY = getHeight() / 2;
+			double radius = (sideLength / (2 * Math.sin(Math.PI / numberOfSides)));
+			Path2D path = new Path2D.Double();
 
-		// Calculate the radius of the circumscribed circle
-		double radius = (sideLength / (2 * Math.sin(Math.PI / numberOfSides)));
+			for (int i = 0; i < numberOfSides; i++) {
+				double angle = 2 * Math.PI * i / numberOfSides;
+				double x = centerX + radius * Math.cos(angle);
+				double y = centerY + radius * Math.sin(angle);
 
-		// Create a path for the polygon
-		Path2D path = new Path2D.Double();
-
-		for (int i = 0; i < numberOfSides; i++) {
-			// Calculate the angle for each vertex
-			double angle = 2 * Math.PI * i / numberOfSides;
-
-			// Calculate vertex coordinates
-			double x = centerX + radius * Math.cos(angle);
-			double y = centerY + radius * Math.sin(angle);
-
-			if (i == 0) {
-				path.moveTo(x, y);
-			} else {
-				path.lineTo(x, y);
+				if (i == 0) {
+					path.moveTo(x, y);
+				} else {
+					path.lineTo(x, y);
+				}
 			}
+
+			path.closePath();
+			g2d.setColor(Color.BLUE);
+			g2d.setStroke(new BasicStroke(2));
+			g2d.draw(path);
 		}
-
-		path.closePath();
-
-		// Draw the polygon
-		g2d.setColor(Color.BLUE);
-		g2d.setStroke(new BasicStroke(2));
-		g2d.draw(path);
 	}
 
 	public static void main(String[] args) {
-		// Example usage with 6 sides and side length of 100
-		SwingUtilities.invokeLater(() -> {
-			PolygonGenerator polygon = new PolygonGenerator(6, 100);
-			polygon.setVisible(true);
-		});
+		PolygonGenerator polygon = new PolygonGenerator();
+		polygon.setVisible(true);
 	}
 }

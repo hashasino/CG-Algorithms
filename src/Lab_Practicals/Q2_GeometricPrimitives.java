@@ -2,12 +2,13 @@ package Lab_Practicals;
 
 // Q2. Write a program to display basic 2D geometric primitives.
 
-import Base.Point;
+import Algorithms.Line;
 import Base.Plotter;
+import Base.Point;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.ArrayList;
 
 // The basic 2D geometrics primitives are defined as: points, lines, arcs, sectors & polygons.
 
@@ -154,8 +155,8 @@ public class Q2_GeometricPrimitives {
 		Point endPoint = new Point(radius * Math.cos(endAngle), radius * Math.sin(endAngle));
 
 		//Adding the two radii to complete the Sector
-		Sector.addAll(Q1_LineDrawing_SimpleDDA.SimpleDDALine(startPoint, centerPoint));
-		Sector.addAll(Q1_LineDrawing_SimpleDDA.SimpleDDALine(endPoint, centerPoint));
+		Sector.addAll(Line.Midpoint(startPoint, centerPoint));
+		Sector.addAll(Line.Midpoint(endPoint, centerPoint));
 
 		return Sector;
 	}
@@ -182,10 +183,10 @@ public class Q2_GeometricPrimitives {
 
 		//Generating the first n-1 sides for polygon
 		for (int i = 0; i < number_of_sides - 1; i++) {
-			Polygon.addAll(Q1_LineDrawing_SimpleDDA.SimpleDDALine(new Point(vertex_X[i], vertex_Y[i]), new Point(vertex_X[i + 1], vertex_Y[i + 1])));
+			Polygon.addAll(Line.Midpoint(new Point(vertex_X[i], vertex_Y[i]), new Point(vertex_X[i + 1], vertex_Y[i + 1])));
 		}
 		//Generating the nᵗʰ side for polygon
-		Polygon.addAll(Q1_LineDrawing_SimpleDDA.SimpleDDALine(new Point(vertex_X[number_of_sides - 1], vertex_Y[number_of_sides - 1]), new Point(vertex_X[0], vertex_Y[0])));
+		Polygon.addAll(Line.Midpoint(new Point(vertex_X[number_of_sides - 1], vertex_Y[number_of_sides - 1]), new Point(vertex_X[0], vertex_Y[0])));
 
 		return Polygon;
 	}
