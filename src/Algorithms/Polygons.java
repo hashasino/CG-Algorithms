@@ -8,6 +8,11 @@ import java.util.List;
 
 public class Polygons {
 
+	//For testing purposes
+	public static void main(String[] args) {
+		Plotter.plotObject(Polygons.Polygon(6, 9), 'p');
+	}
+
 	//Algorithm to draw regular polygons
 	public static List<Point> Polygon(int number_of_sides, int side_length) {
 
@@ -38,8 +43,43 @@ public class Polygons {
 		return Polygon;
 	}
 
-	//For testing purposes
-	public static void main(String[] args) {
-		Plotter.plotObject(Polygons.Polygon(6, 9), 'p');
+	//Scan Line Fill Algorithm (only works for convex polygons)
+	public static List<Point> ScanLine(List<Point> Polygon) {
+
+		//Plotting the polygon's outline on a grid to scan
+		String[][] grid = Plotter.initializeObjectGrid(Polygon, 'o');
+		int centerX = grid[0].length / 2;
+		int centerY = grid.length / 2;
+
+		//Initializing point list for fill
+		List<Point> Fill = new ArrayList<>();
+
+		for (int y = 0; y < grid.length; y++) {
+
+			//Checking if the row has only a single boundary point & skipping if true
+			int count = 0;
+			for (int x = 0; x < grid[0].length; x++) {
+				if (grid[y][x].equals("o")) count++;
+			}
+			if (count % 2 != 0) continue;
+
+			//Checking if current point is inside polygon's boundaries & adding it to the list if true
+			boolean inside = false;
+			for (int x = 0; x < grid[0].length; x++) {
+				if (grid[y][x].equals("o")) {
+					inside = !inside;
+				} else if (inside) {
+					Fill.add(new Point(x - centerX, y - centerY));
+				}
+			}
+		}
+
+		return Fill;
+	}
+
+	public static void Flood() {
+	}
+
+	public static void Boundary() {
 	}
 }

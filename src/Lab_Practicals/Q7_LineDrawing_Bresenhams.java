@@ -27,7 +27,7 @@ public class Q7_LineDrawing_Bresenhams {
 		List<Point> Line = BresenhamsLine(startPoint, endPoint);
 
 		//Printing line coordinates
-		Plotter.printObject(Line);
+		Plotter.printCoordinates(Line);
 		System.out.println();
 
 		//Plotting line coordinates

@@ -27,7 +27,7 @@ public class Q1_LineDrawing_SimpleDDA {
 		List<Point> Line = SimpleDDALine(startPoint, endPoint);
 
 		//Printing line coordinates
-		Plotter.printObject(Line);
+		Plotter.printCoordinates(Line);
 		System.out.println();
 
 		//Plotting line coordinates

@@ -27,7 +27,7 @@ public class Q5_LineDrawing_Midpoint {
 		List<Point> Line = MidpointLine(startPoint, endPoint);
 
 		//Printing line coordinates
-		Plotter.printObject(Line);
+		Plotter.printCoordinates(Line);
 		System.out.println();
 
 		//Plotting line coordinates
